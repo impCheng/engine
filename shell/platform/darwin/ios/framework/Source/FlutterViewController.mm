@@ -544,6 +544,9 @@ static void sendFakeTouchEvent(FlutterEngine* engine,
 #pragma mark - Surface creation and teardown updates
 
 - (void)surfaceUpdated:(BOOL)appeared {
+    if (appeared && self.engine.viewController == nil) {
+        return;
+    }
   // NotifyCreated/NotifyDestroyed are synchronous and require hops between the UI and raster
   // thread.
   if (appeared) {
