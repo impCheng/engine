@@ -28,6 +28,9 @@ docs/doxygen/
 xcuserdata
 
 third_party/gn/
+.gclient
+.gclient_entries
+.cipd/
 
 # Miscellaneous
 *.class
