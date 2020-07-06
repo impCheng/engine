@@ -710,6 +710,14 @@ NSString* const FlutterDefaultDartEntrypoint = nil;
   _isGpuDisabled = value;
 }
 
+#pragma mark - Memory dump
+
+- (float)getMemoryUsed {
+    FML_DCHECK(_shell) << "Cannot memoryDump without a shell";
+    return _shell->memoryDump();
+}
+
+
 @end
 
 @implementation FlutterEngineRegistrar {

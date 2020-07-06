@@ -404,6 +404,12 @@ class Rasterizer final : public SnapshotDelegate {
   /// @return     The size of Skia's resource cache, if available.
   ///
   std::optional<size_t> GetResourceCacheMaxBytes() const;
+    
+  std::optional<size_t> GetResourceCacheUseage() const;
+
+  //memory dump bytes
+  std::optional<size_t> GetMemoryDumpBytes() const;
+
 
  private:
   Delegate& delegate_;

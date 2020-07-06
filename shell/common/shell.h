@@ -347,6 +347,10 @@ class Shell final : public PlatformView::Delegate,
   ///             Dart ports.
   ///
   bool EngineHasLivePorts() const;
+                        
+  // memeory dump
+  float memoryDump() const;
+
 
   //----------------------------------------------------------------------------
   /// @brief     Accessor for the disable GPU SyncSwitch

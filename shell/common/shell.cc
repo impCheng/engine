@@ -32,6 +32,8 @@
 #include "third_party/skia/include/core/SkGraphics.h"
 #include "third_party/skia/include/utils/SkBase64.h"
 #include "third_party/tonic/common/log.h"
+#include "third_party/skia/include/core/SkTraceMemoryDump.h"
+
 
 namespace flutter {
 
@@ -449,6 +451,30 @@ void Shell::NotifyLowMemoryWarning() const {
       });
   // The IO Manager uses resource cache limits of 0, so it is not necessary
   // to purge them.
+}
+
+float Shell::memoryDump() const {
+    //here print the memory of resourece cache
+    //    TestSkTraceMemoryDump *dump = new TestSkTraceMemoryDump(true);
+    //    SkGraphics::DumpMemoryStatistics(dump);
+    float bytesUsed = 0;
+    fml::AutoResetWaitableEvent latch;
+    fml::TaskRunner::RunNowOrPostTask(task_runners_.GetGPUTaskRunner(), [&latch,
+                                                                         rasterizer = rasterizer_->GetWeakPtr(),  //
+                                                                         &bytesUsed
+                                                                         ]() {
+        if (rasterizer) {
+            //        rasterizer_->GetResourceCacheMaxBytes();
+            //        rasterizer_->GetResourceCacheUseage();
+            std::optional<size_t> bytes = rasterizer->GetMemoryDumpBytes();
+            if (bytes) {
+                bytesUsed = bytes.value();
+            }
+        }
+        latch.Signal();
+    });
+    latch.Wait();
+    return bytesUsed;
 }
 
 void Shell::RunEngine(RunConfiguration run_configuration) {

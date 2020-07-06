@@ -309,6 +309,13 @@ FLUTTER_EXPORT
  */
 @property(nonatomic, assign) BOOL isGpuDisabled;
 
+/**
+* This method will dump the memory of the texture used
+*
+* the return value is the used bytes of all textures
+*/
+- (float)getMemoryUsed;
+
 @end
 
 NS_ASSUME_NONNULL_END

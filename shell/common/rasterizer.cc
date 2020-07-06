@@ -15,6 +15,8 @@
 #include "third_party/skia/include/core/SkSurface.h"
 #include "third_party/skia/include/core/SkSurfaceCharacterization.h"
 #include "third_party/skia/include/utils/SkBase64.h"
+#include "third_party/skia/include/core/SkTraceMemoryDump.h"
+
 
 namespace flutter {
 
@@ -566,10 +568,41 @@ std::optional<size_t> Rasterizer::GetResourceCacheMaxBytes() const {
   if (context) {
     size_t max_bytes;
     context->getResourceCacheLimits(nullptr, &max_bytes);
+    printf("memory dump print GetResourceCacheMaxBytes: %zu \n", max_bytes);
     return max_bytes;
   }
   return std::nullopt;
 }
+
+std::optional<size_t> Rasterizer::GetResourceCacheUseage() const {
+  if (!surface_) {
+    return std::nullopt;
+  }
+  GrContext* context = surface_->GetContext();
+  if (context) {
+    size_t max_bytes;
+    int max_counts;
+    context->getResourceCacheUsage(&max_counts, &max_bytes);
+    printf("memory dump print GetResourceCacheUseage: %zu \n", max_bytes);
+    return max_bytes;
+  }
+  return std::nullopt;
+}
+
+std::optional<size_t> Rasterizer::GetMemoryDumpBytes() const {
+    if (!surface_) {
+        return std::nullopt;
+    }
+    GrContext* context = surface_->GetContext();
+    if (context) {
+        TestSkTraceMemoryDump *dump = new TestSkTraceMemoryDump(true);
+        context->dumpMemoryStatistics(dump);
+        printf("memory dump print GetMemoryDumpBytes : %zu \n", dump->dumpedObjectsSize());
+        return dump->dumpedObjectsSize();
+    }
+    return std::nullopt;
+}
+
 
 Rasterizer::Screenshot::Screenshot() {}
 
