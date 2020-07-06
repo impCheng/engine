@@ -459,7 +459,7 @@ float Shell::memoryDump() const {
     //    SkGraphics::DumpMemoryStatistics(dump);
     float bytesUsed = 0;
     fml::AutoResetWaitableEvent latch;
-    fml::TaskRunner::RunNowOrPostTask(task_runners_.GetGPUTaskRunner(), [&latch,
+    fml::TaskRunner::RunNowOrPostTask(task_runners_.GetRasterTaskRunner(), [&latch,
                                                                          rasterizer = rasterizer_->GetWeakPtr(),  //
                                                                          &bytesUsed
                                                                          ]() {
