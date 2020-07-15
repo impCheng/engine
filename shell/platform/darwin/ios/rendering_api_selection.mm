@@ -20,6 +20,7 @@ bool ShouldUseMetalRenderer() {
   // Flutter supports Metal on all devices with Apple A7 SoC or above that have been updated to or
   // past iOS 10.0. The processor was selected as it is the first version at which Metal was
   // supported. The iOS version floor was selected due to the availability of features used by Skia.
+    return false;
   bool ios_version_supports_metal = false;
   if (@available(iOS 10.0, *)) {
     auto device = MTLCreateSystemDefaultDevice();
