@@ -906,6 +906,11 @@ void Shell::OnPlatformViewUnregisterTexture(int64_t texture_id) {
       [rasterizer = rasterizer_->GetWeakPtr(), texture_id]() {
         if (rasterizer) {
           if (auto* registry = rasterizer->GetTextureRegistry()) {
+              if (!registry)
+              {
+                printf("===!!! fatal error protected, please contact niudongsheng.");
+                return;
+              }
             registry->UnregisterTexture(texture_id);
           }
         }
